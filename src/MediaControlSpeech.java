@@ -93,6 +93,8 @@ public class MediaControlSpeech extends BorderPane {
                 } else {
                     dir.mkdir();
                 }
+                textSpeech.clear();
+                speechOrderNumberFile.clear();
                 copyFileUsingStream(fileTextName, dirMP3 + "A00.txt");
                 saveArrayTextSpeech(dirMP3 + "A00.txt");
                 for (int i = 0; i <= textSpeech.size() - 1; i++) {
@@ -163,10 +165,12 @@ public class MediaControlSpeech extends BorderPane {
 
         speechOrder.setOnAction(e -> {
 // Read in order
+            Collections.sort(speechOrderNumberFile);
             speechOrder.setStyle("-fx-font-size: 14px; -fx-border-radius: 5; -fx-border-color: #000000;" +
                     "-fx-background-color: #c0c0c0; -fx-text-fill: #fffff0");
             speechRandomOrder.setStyle("-fx-font-size: 14px; -fx-border-radius: 5; -fx-border-color: #000000;" +
                     "-fx-background-color: #f5f5dc; -fx-text-fill: #000000");
+            count = 0;
         });
 
         speechRandomOrder.setOnAction(e -> {
@@ -176,6 +180,7 @@ public class MediaControlSpeech extends BorderPane {
                     "-fx-background-color: #f5f5dc; -fx-text-fill: #000000");
             speechRandomOrder.setStyle("-fx-font-size: 14px; -fx-border-radius: 5; -fx-border-color: #000000;" +
                     "-fx-background-color: #c0c0c0; -fx-text-fill: #fffff0");
+            count = 0;
         });
 
         mvPane.setStyle("-fx-background-color: #fffff0;");
@@ -297,27 +302,6 @@ public class MediaControlSpeech extends BorderPane {
             e.printStackTrace();
         }
     }
-    private static void createDir() {
-// if directory dir exists, remove MP3 files
-// otherwise create dir directory
-// create file A00.txt from test.txt to fill speech text when reading MP3 files
-
-        fileTextName = System.getProperty("user.home") + "/test.txt";
-
-        try {
-            if (dir.isDirectory()) {
-            for (File f : Objects.requireNonNull(dir.listFiles())) {
-                f.delete();
-            }
-        } else {
-                dir.mkdir();
-
-            }
-            copyFileUsingStream(fileTextName, dir + "/A00.txt");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
     private static void copyFileUsingStream(String source, String dest) {
 // create file A00.txt
         InputStream is = null;
@@ -347,6 +331,5 @@ public class MediaControlSpeech extends BorderPane {
             }
         }
     }
-
 }
 
